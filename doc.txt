@@ -1,0 +1,2 @@
+logcutter1_0: release
+logcutter2_0: fixed directory scanning in the create_file function, the previous version just didn't work
