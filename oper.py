@@ -9,7 +9,7 @@ import os
 import originpro as op
 import sys
 
-template_path = ('TimeDecay.otpu')
+template_path = (r'C:\Users\piotr\Documents\VS_Code\spectrographer\TimeDecay.otpu')
 
 def origin_fit_decay(wavelength, unit, title, csv_path, fun='ExpDecay1', irf_end = 0.0):
 

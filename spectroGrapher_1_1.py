@@ -346,8 +346,8 @@ def make_spectra(path, path2 = None, outPath = None, merge = False, IRF_threshol
     
     #find WL and t0 of highest intensity point. Alternatively, set wl and t0 manually
     maxes=findMaxWL(contentAbs, n)
-    # t0 = 46.5
-    t0 = 310822.0
+    t0 = 46.5
+    #t0 = 310822.0
     wl = maxes[0]
     #wl = 640.03527842334245
     
@@ -407,15 +407,15 @@ def make_spectra(path, path2 = None, outPath = None, merge = False, IRF_threshol
     return
     
 
-path = os.path.normpath('C:\\Users\\piotr\\Desktop\\100K\\rt')
-path2 = os.path.normpath('C:\\Users\\piotr\\Desktop\\100K\\')
-outPath = os.path.normpath(path + '\\out')
+path = os.path.normpath(r'C:\Users\piotr\Documents\VS_Code\working_dirs\pressure_AM\glass_k2\short')
+path2 = os.path.normpath(r'C:\Users\piotr\Documents\VS_Code\working_dirs\pressure_AM\glass_k2\long')
+outPath = os.path.normpath(r'C:\Users\piotr\Documents\VS_Code\working_dirs\pressure_AM\glass_k2\out')
 
 
-merge = False       ## False if single file, True if two files
-IRF_threshold = 2.0  ## Subtract IRF-contaminated frames up to this time in ns
+merge = True       ## False if single file, True if two files
+IRF_threshold = 0.0  ## Subtract IRF-contaminated frames up to this time in ns
 n = 6  # 1/n frames will be taken into account when calculating the max WL
-fit_function = 'ExpDec2'
+fit_function = 'ExpDec3'
 
 if __name__ == '__main__':
     make_spectra(path, path2, outPath, merge, IRF_threshold, n, fit_function = fit_function, plot_without_adj = False)
