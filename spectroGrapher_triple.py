@@ -312,7 +312,7 @@ def rangeTR(arr, wl, rg):
             timeResolvedRange.append(line[:])
     return timeResolvedRange
 
-def make_spectra(path, path2 = None, outPath = None, merge = False, IRF_threshold = 2.0, n = 3, fit_function = 'ExpDec2', plot_without_adj = False):
+def make_spectra(path, path2 = None, path3 = None, outPath = None, merge = False, IRF_threshold = 2.0, n = 3, fit_function = 'ExpDec2', plot_without_adj = False):
     
     if outPath == None:
         outPath = path
@@ -342,6 +342,19 @@ def make_spectra(path, path2 = None, outPath = None, merge = False, IRF_threshol
         for i in info2:
             logFile.write(str(i) + '\n')
         logFile.close()
+
+
+    ##read the tertiary file, which will be stiched to the primary file (optional)
+    
+    if merge:
+        info3 = infoRead(os.path.join(path3, findCSV(path3)[0]))
+        content3 = loadCSV(os.path.join(path3, findCSV(path3)[1]))
+        contentAbs3 = frameToTime(content3, info3[0], info3[1], info3[2], info3[8])
+        framesTotal = framesTotal + info3[2]
+        logFile = open(os.path.join(path3,'parameters.txt'), '+w')
+        for i in info3:
+            logFile.write(str(i) + '\n')
+        logFile.close()
         
     
     #find WL and t0 of highest intensity point. Alternatively, set wl and t0 manually
@@ -354,11 +367,12 @@ def make_spectra(path, path2 = None, outPath = None, merge = False, IRF_threshol
     
     #stiching (optional)
     if merge:
-        values = normSearch(contentAbs, info[2], info[8], wl)
-        linValues = [values[0][0], values[1][0], values[0][2], values[1][2], info2[0], values[0][1]]
-        normLine = linExpol(*linValues)
-        contentAbs2Rescaled = rescaleNorm(contentAbs2, normLine[0], normLine[1], normLine[2])
-        mergedContent = mergeArr (contentAbs, contentAbs2Rescaled)
+        # values = normSearch(contentAbs, info[2], info[8], wl)
+        # linValues = [values[0][0], values[1][0], values[0][2], values[1][2], info2[0], values[0][1]]
+        # normLine = linExpol(*linValues)
+        # contentAbs2Rescaled = rescaleNorm(contentAbs2, normLine[0], normLine[1], normLine[2])
+        mergedContent = mergeArr (contentAbs, contentAbs2)
+        mergedContent = mergeArr (mergedContent, contentAbs3)
         contentAbs = mergedContent
         
     #make time stamps relative to t0
@@ -409,6 +423,7 @@ def make_spectra(path, path2 = None, outPath = None, merge = False, IRF_threshol
 
 path = os.path.normpath(r'C:\Users\piotr\Documents\VS_Code\working_dirs\old_AM\11_07_23_AM_0001_100K\short')
 path2 = os.path.normpath(path[:-5] + 'mid')
+path3 = os.path.normpath(path[:-5] + 'long')
 outPath = os.path.normpath(path + '_out')
 
 
@@ -418,7 +433,7 @@ n = 6  # 1/n frames will be taken into account when calculating the max WL
 fit_function = 'ExpDec2'
 
 if __name__ == '__main__':
-    make_spectra(path, path2, outPath, merge, IRF_threshold, n, fit_function = fit_function, plot_without_adj = False)
+    make_spectra(path, path2, path3, outPath, merge, IRF_threshold, n, fit_function = fit_function, plot_without_adj = False)
 
     
     
