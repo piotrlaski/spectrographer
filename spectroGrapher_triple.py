@@ -92,7 +92,7 @@ def infoRead(path):
     while (content[index].isdigit() or content[index] == '.'):
         xSteps = xSteps + content[index]
         index = index + 1
-    
+    xSteps = 680
     print ((gateStart), (gateEnd), (frames), (gateStartWidth), (gateEndWidth), (CCD), (avgFrames), (intensifier), (xSteps))
     
     return (float(gateStart), float(gateEnd), int(frames), float(gateStartWidth), float(gateEndWidth), int (CCD), int(avgFrames), int(intensifier), int(xSteps))
@@ -367,7 +367,7 @@ def make_spectra(path, path2 = None, path3 = None, outPath = None, merge = False
     
     #stiching (optional)
     if merge:
-        # values = normSearch(contentAbs, info[2], info[8], wl)
+        # values = normSearch(contentAbs, info[2], info[8], wl)  [info[-1]:]
         # linValues = [values[0][0], values[1][0], values[0][2], values[1][2], info2[0], values[0][1]]
         # normLine = linExpol(*linValues)
         # contentAbs2Rescaled = rescaleNorm(contentAbs2, normLine[0], normLine[1], normLine[2])
@@ -424,7 +424,7 @@ def make_spectra(path, path2 = None, path3 = None, outPath = None, merge = False
 path = os.path.normpath(r'C:\Users\piotr\Documents\VS_Code\working_dirs\old_AM\11_07_23_AM_0001_100K\short')
 path2 = os.path.normpath(path[:-5] + 'mid')
 path3 = os.path.normpath(path[:-5] + 'long')
-outPath = os.path.normpath(path + '_out')
+outPath = os.path.normpath(path[:-5] + 'out')
 
 
 merge = True       ## False if single file, True if two files
